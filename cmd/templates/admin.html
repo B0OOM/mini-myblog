@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mini blog 管理后台 | 入职啦(Ruzhila.cn)</title>
+    <script src="/static/tailwind-3.3.2.js"></script>
+    <link rel="stylesheet" href="/static/cloudflare.min.css">
+    <link rel="icon" type="image/svg+xml" href="../static/imgs/banner.svg" />
+    <script>
+         deletePost = function (id) {
+            if (confirm('确认要删除这篇文章？')) {
+                window.location = `/admin/delete/post?post_id=${id}`;
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+
+<body>
+    <header class="bg-[#0E1729]">
+        <div class="py-3 flex justify-between items-center px-6 gap-x-5 text-white max-w-5xl mx-auto">
+            <p class="flex items-center space-x-3">
+                <a href="/">Mini blog</a>
+                <span class="h-4 border-l border-white "></span>
+                <a href="https://ruzhila.cn/?from=mini-blog">入职啦(Ruzhila.cn)</a>
+            </p>
+            <img src="https://ruzhila.cn/_nuxt/user.DdU1MqfC.jpg" alt="头像" class="w-9 h-9 rounded-full">
+        </div>
+    </header>
+
+    <main class="min-h-[calc(100vh-8rem)]">
+        <div class="flex items-center justify-between max-w-5xl mx-auto px-6 py-5">
+            <p class="font-bold text-xl">Mini blog 管理后台</p>
+            <a href="/admin/create" class="px-4 py-2 rounded bg-gray-900 text-white">新增文章</a>
+        </div>
+
+        <div class="max-w-5xl mx-auto mt-6 px-6">
+            <div class=" border border-gray-200 rounded-md">
+                <table class="min-w-full divide-y divide-gray-300 rounded-t-md">
+                    <thead class="py-2">
+                        <tr class="bg-gray-100 rounded-t-md h-14">
+                            <th class="p-2 flex-grow">标题</th>
+                            <th class=" p-2 w-40">作者</th>
+                            <th class=" p-2 w-40">创建时间</th>
+                            <th class=" p-2 w-20">评论</th>
+                            <th class=" p-2 w-40">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-x divide-gray-200 text-gray-600">
+                        {{ range .posts }}
+                        <tr>
+                            <td class="px-2 py-3 flex-grow text-center">
+                                <p>
+                                    <a href="/admin/edit/?id={{.ID}}"
+                                        class="text-center hover:underline text-gray-900 cursor-pointer">
+                                        {{ .Title}}</a>
+                                </p>
+                                <p class="mt-1 text-gray-600 text-sm">{{.Desc}}</p>
+                            </td>
+                            <td class=" p-2 w-40 text-center">{{.Author}}</td>
+                            <!-- <td class=" p-2 w-40 text-center">{{.Keywords}}</td> -->
+                            <td class=" p-2 w-40 text-center text-sm">{{strtime .CreatedAt "2006-01-02"}}</td>
+                            <td class=" p-2 w-20 text-center">{{ len .Comments }}</td>
+                            <td class=" p-2 w-40">
+                                <div class="flex items-center justify-center gap-x-2">
+                                    <a href="/admin/edit/?id={{.ID}}"><button
+                                            class="px-3 py-1 text-sm text-gray-600 bg-gray-100 shadow-sm rounded">编辑</button></a>
+                                    <button class="px-3 py-1 text-sm text-red-600 bg-red-50 shadow-sm rounded"
+                                        onclick="deletePost('{{.ID}}')">删除</button>
+                                </div>
+                            </td>
+                        </tr>
+                        {{ end }}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-10 flex justify-end text-gray-50 max-w-5xl mx-auto px-6">
+            <nav class="flex items-center space-x-3 rounded-md text-black">
+                {{ with .pagination }}
+                <p>总计: {{ .Total }}</p>
+                <p>当前页面：{{ .Page }}</p>
+                <a href="?page=1"
+                class="rounded w-12 h-7 flex justify-center items-center ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                    <span class="text-xs text-gray-800">第一页</span>
+                </a>
+
+                {{ if gt .Page 1 }}
+                <a href="?page={{ .Prev }}" class="text-black">
+                    <span class="text-xs text-gray-800">上一页</span>
+                    <!-- <i class="fa-solid fa-chevron-left w-5 h-5 m-2 text-white hover:text-gray-100"></i> -->
+                </a>
+                {{ end }}
+
+                {{ if lt .Page .Last }}
+                <a href="?page={{ .Next }}" class="">
+                    <span class="text-xs text-gray-800">下一页</span>
+                    <!-- <i class="fa-solid fa-chevron-right w-5 h-5 m-2 text-white hover:text-gray-100"></i> -->
+                </a>
+                {{ end }}
+
+
+                <a href="?page={{ .Last }}"
+                   class="rounded w-14 h-7 flex justify-center items-center ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                    <span class="text-xs text-gray-800">最后一页</span>
+                </a>
+                {{ end }}
+            </nav>
+        </div>
+
+    </main>
+    <footer class="border-t py-5 border-gray-500 bg-[#0E1729]">
+        <div class="flex items-center gap-x-6 max-w-5xl mx-auto  px-6 text-white">
+            <a href="https://ruzhila.cn/?from=mini-blog">入职啦</a>
+        </div>
+    </footer>
+</body>
+
+</html>

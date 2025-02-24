@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ .post.Title }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link rel="icon" type="image/svg+xml" href="/static/imgs/banner.svg" />
+    <script src="/static/tailwind-3.3.2.js"></script>
+    <link rel="stylesheet" href="/static/cloudflare.min.css">
+
+    <meta name="description" content="{{ .post.Desc }}">
+    <meta name="keywords" content="{{ .post.Keywords }}">
+
+    <style type="text/tailwindcss">
+        label{
+            @apply text-base block mb-2 text-gray-600 mt-4
+        }
+        .hang{ @apply w-full}
+        .round { @apply w-full rounded border px-2 py-1 border-slate-300 placeholder-gray-400 placeholder:text-sm
+                        focus:bg-white focus:text-gray-900 focus:placeholder-gray-500 focus:outline-none
+                         focus:border-zinc-950 focus:border ring-0 focus:ring-0 text-gray-900 }
+
+        .button { @apply hover:bg-opacity-90 text-white font-bold py-1.5 px-6 rounded-full cursor-pointer }
+
+    </style>
+</head>
+
+
+<body>
+
+    <header class="bg-[#0E1729]">
+        <div class="py-3 flex justify-between items-center px-6 gap-x-5 text-white max-w-5xl mx-auto">
+            <p class="flex items-center space-x-3">
+                <a href="/">Mini blog</a>
+                <span class="h-4 border-l border-white "></span>
+                <a href="https://ruzhila.cn/?from=mini-blog">入职啦(Ruzhila.cn)</a>
+            </p>
+            <img src="https://ruzhila.cn/_nuxt/user.DdU1MqfC.jpg" alt="头像" class="w-9 h-9 rounded-full">
+        </div>
+    </header>
+
+
+
+    <main class="min-h-[calc(100vh-8rem)]">
+
+        <div class="bg-gray-50">
+            <div class="max-w-5xl  mx-auto px-6 py-5 bg-white">
+                <div class="my-3 flex items-center gap-x-4 text-sm text-gray-500">
+                    <a href="/" class="font-semibold">文章列表</a>
+                </div>
+
+                <div class="border-b pb-2">
+                    <p class="font-semibold text-2xl">{{ .post.Title }}</p>
+                    <div class="flex items-center gap-x-5 text-gray-600 mt-3">
+                        <p>By<span class="text-gray-800 font-semibold"> {{ .post.Author }}</span></p>
+                        <p class="text-sm">{{ strtime .post.CreatedAt "2006-01-02" }}</p>
+                    </div>
+                </div>
+                <div class="markdown-content py-2">{{ markdown .post.Content }}</div>
+            </div>
+
+            <div class="max-w-5xl mx-auto px-6 bg-white mt-5 py-3 shadow">
+                <div>
+                    <form action="" method="post">
+                        <input type="hidden" name="slug" value="{{ .post.Slug }}">
+                        <p class="text-xl font-semibold">留言</p>
+                        <div class="flex items-center gap-x-6 mt-4 py-2">
+                            <p class="hang">
+                                <label for="name">* 显示名称</label>
+                                <input type="text" name="name" id="name" required class="round">
+                            </p>
+                            <p class="hang">
+                                <label for="email">* 联系邮箱地址(不会显示)</label>
+                                <input type="email" name="email" id="email" required class="round">
+                            </p>
+                        </div>
+
+                        <p class="hang">
+                            <label for="content">* 留言内容</label>
+                            <textarea name="content" id="content" required class="round h-20"></textarea>
+                        </p>
+                        <p class="flex justify-end w-full">
+                            <button type="submit" class="bg-gray-900 text-gray-100 px-3 py-1.5 rounded-md">发布评论</button>
+                        </p>
+                    </form>
+                </div>
+                {{ if .post.Comments }}
+                <div class="py-2 mt-6">
+                    <p class="font-semibold text-gray-900 text-xl">最近评论 🔥</p>
+                    <ul class="mt-3">
+                        {{ range .post.Comments }}
+                        <li class="py-2 bg-gray-50 px-5 border-b border-gray-200 rounded mt-2">
+                            <p class="flex items-center justify-between">
+                                <span>By {{ .Author }}</span>
+                                <span class="text-gray-500 text-sm text-sm">{{strtime .CreatedAt "2006-01-02" }}</span>
+                            </p>
+                            <div class="text-gray-800 py-1 px-4 markdown-content">{{ markdown .Content }}</div>
+                        </li>
+                        {{ end }}
+                    </ul>
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </main>
+    <footer class="border-t py-5 border-gray-500 bg-[#0E1729]">
+        <div class="flex items-center gap-x-6 max-w-5xl mx-auto  px-6 text-white">
+            <a href="/admin">管理后台</a>
+            <a href="https://ruzhila.cn/?from=mini-blog">入职啦(Ruzhila.cn)</a>
+        </div>
+    </footer>
+</body>
+
+</html>

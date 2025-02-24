@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mini blog | ruzhila.cn</title>
+    <script src="/static/tailwind-3.3.2.js"></script>
+    <link rel="icon" type="image/svg+xml" href="../static/imgs/banner.svg" />
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link rel="stylesheet" href="/static/cloudflare.min.css">
+</head>
+
+<body class="bg-[#0E1729]">
+    <header>
+        <div class="py-3 flex justify-between items-center px-6 gap-x-5 text-white max-w-5xl mx-auto">
+            <p class="flex items-center space-x-3">
+                <a href="/">Mini blog</a>
+                <span class="h-4 border-l border-white "></span>
+                <a href="https://ruzhila.cn/?from=mini-blog">入职啦(Ruzhila.cn)</a>
+            </p>
+            <img src="https://ruzhila.cn/_nuxt/user.DdU1MqfC.jpg" alt="头像" class="w-9 h-9 rounded-full">
+        </div>
+    </header>
+
+    <div class="banner overflow-hidden">
+        <div class="max-w-5xl mx-auto px-6 flex items-center justify-between text-white">
+            <div>
+                <h2 class="font-bold text-5xl">Hi 我是小葵 👋</h2>
+                <p class="text-[#1E7FEB] text-4xl font-bold mt-3">欢迎来入职啦的博客</p>
+                <p class="mt-6">入职啦博客,10分钟教你搭建一个简易博客</p>
+                <div class="flex items-center gap-x-4 mt-6">
+                    <a href=""> <img src="/static/imgs/github.svg" alt="" class="w-8 shadow-md"></a>
+                    <a href=""> <img src="/static/imgs/gitee.svg" alt="" class="w-7 shadow"></a>
+                    <a href=""><img src="/static/imgs/csdn.svg" alt="" class="w-7 shadow"></a>
+                    <a href=""><img src="/static/imgs/zhihu.svg" alt="" class="w-7 shadow"></a>
+                </div>
+            </div>
+
+            <img src="/static/imgs/banner.svg" alt="" class="w-80">
+        </div>
+
+    </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto py-4 px-6">
+        <p class="text-xl font-semibold text-gray-700 mb-4 text-white">最近<span class="text-teal-500 ml-2">文章</span></p>
+        <ul class="grid grid-cols-1 gap-6">
+            {{ range .posts }}
+            <li class="border-b py-4 px-4 mt-2 group rounded bg-white shadow">
+                <div>
+                    <a href="/post/{{ .Slug }}"
+                        class="font-semibold group-hover:underline cursor-pointer">{{.Title}}</a>
+                </div>
+                <p class="two-ellipsis text-sm text-gray-700 py-3 leading-6">
+                    {{ .Desc }}
+                </p>
+
+                <div class="flex items-center justify-between text-gray-500 text-xs">
+                    <div class="flex items-center gap-x-4">
+                        <p>By <span class="font-semibold text-gray-700">{{ .Author }} </span></p>
+                        <p>{{ strtime .CreatedAt "2006-01-02" }}</p>
+                        <a href="/post/{{ .Slug }}">
+                            <p class="flex items-center gap-x-1 cursor-pointer">
+                                <i class="fa-regular fa-message w-5"></i>
+                                <span>{{len .Comments}}</span>
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            </li>
+            {{ end }}
+        </ul>
+
+        <div class="mt-10 flex justify-end text-gray-50">
+            {{with .pagination}}
+            <nav class="flex items-center space-x-3 rounded-md" aria-label="Pagination">
+
+                <p>总计: {{.Total }}</p>
+
+                <a href="?page=1"
+                    class="rounded w-16 h-9 flex justify-center items-center ring-1 ring-inset ring-gray-300 hover:bg-opacity-90">
+                    <span class="text-xs text-gray-100">第一页</span>
+                </a>
+
+                {{ if .Prev }}
+                <a href="?page={{ .Prev }}">
+                    <span class="sr-only">上一页</span>
+                    <i class="fa-solid fa-chevron-left w-5 h-5 m-2 text-white hover:text-gray-100"></i>
+                </a>
+                {{ end }}
+
+                {{ if .Next }}
+                <a href="?page={{ .Next }}" class="">
+                    <span class="sr-only">下一页</span>
+                    <i class="fa-solid fa-chevron-right w-5 h-5 m-2 text-white hover:text-gray-100"></i>
+                </a>
+                {{ end }}
+
+                <a href="?page={{ .Last }}"
+                    class="rounded w-16 h-9 flex justify-center items-center ring-1 ring-inset ring-gray-300 hover:bg-opacity-90">
+                    <span class="text-xs text-gray-100">最后一页</span>
+                </a>
+            </nav>
+            {{end}}
+        </div>
+    </div>
+
+    <footer class="border-t py-5 border-gray-500 bg-[#0E1729]">
+        <div class="flex items-center gap-x-6 max-w-5xl mx-auto  px-6 text-white">
+            <a href="/admin">管理后台</a>
+            <a href="https://ruzhila.cn/?from=mini-blog">入职啦(Ruzhila.cn)</a>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+cmd/cmd
+*~
+*.db
+go.sum
